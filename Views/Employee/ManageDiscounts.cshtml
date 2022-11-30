@@ -1,0 +1,15 @@
+@using Northwind.Models
+@model IEnumerable<Discount>
+
+<ul class="list-group">
+    @foreach (Discount discount in Model)
+    {
+        <li class="list-group-item">
+            @discount.Title - @discount.Description
+            <a asp-action="DeleteDiscount" asp-route-id="@discount.DiscountId">Delete</a>
+            <a asp-action="EditDiscount" asp-route-id="@discount.DiscountId">Edit</a>
+        </li>
+    }
+    <hr />
+    <a asp-action="AddDiscount" class="btn btn-outline-primary">Add A New Discount</a>
+</ul>

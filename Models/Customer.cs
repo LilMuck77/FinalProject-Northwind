@@ -7,6 +7,8 @@ namespace Northwind.Models
         public int CustomerId { get; set; }
         [Required(ErrorMessage = "Company Name is required")]
         public string CompanyName { get; set; }
+          [Required]
+        public string Email { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string Region { get; set; }

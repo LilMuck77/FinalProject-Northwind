@@ -23,46 +23,90 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i
                         class="far fa-compass"></i> Northwind</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-database"></i> Products
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-controller="Product" asp-action="Category"><i
+                                    <i class="fas fa-database"></i> Products
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" asp-controller="Product" asp-action="Category"><i
                                         class="fas fa-list-ul"></i> Browse Categories</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-search"></i> Product Search</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Product" asp-action="Discounts"><i class="fas fa-tag"></i> Current Discounts</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="customerDropdown" role="button"
+                                    <a class="dropdown-item" href="#"><i class="fas fa-search"></i> Product Search</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-controller="Product" asp-action="Discounts"><i
+                                        class="fas fa-tag"></i> Current Discounts</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="customerDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-users"></i> Customers
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="customerDropdown">
-                                <a class="dropdown-item" href="#"><i class="fas fa-user"></i> Account</a>
-                                <a class="dropdown-item" asp-controller="Customer" asp-action="Register"><i
+                                    <i class="fas fa-users"></i> Customers
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="customerDropdown">
+                                    @if (User?.Identity?.IsAuthenticated ?? false)
+                                    {
+                                        <a class="dropdown-item" asp-controller="Customer" asp-action="Account"><i
+                                        class="fas fa-user"></i> Account</a>
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i
+                                        class="fas fa-sign-out-alt"></i> Sign Out</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" asp-controller="Customer" asp-action="Register"><i
                                         class="far fa-address-card"></i> Register</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt"></i> Sign In</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                <form class="form-inline my-2 my-lg-0 d-none d-md-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Product Search" aria-label="Search">
-                    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i
-                            class="fas fa-search"></i><span class="sr-only">Search</span></button>
-                </form>
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Login"><i
+                                        class="fas fa-sign-in-alt"></i> Sign In</a>
+                                    }
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="employeeDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i> Employee
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="employeeDropdown">
+                                    @if (User?.Identity?.IsAuthenticated ?? false)
+                                    {
+                                        <a class="dropdown-item" asp-controller="Employee" asp-action="ManageDiscounts"><i
+                                        class="fas fa-tags"></i> Manage Disounts</a>
+
+                                        <a class="dropdown-item" asp-controller="Employee" asp-action="AddDiscount"><i
+                                        class="fa fa-plus-circle"></i> Add a Discount</a>
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i
+                                        class="fas fa-sign-out-alt"></i> Log out</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" asp-controller="Employee" asp-action="NewEmployeeAccount"><i
+                                        class="fas fa-user-plus"></i> New Account</a>
+
+                                        <a class="dropdown-item" asp-controller="Account" asp-action="Login"><i
+                                        class="fas fa-sign-in-alt"></i> Employee Login</a>
+                                    }
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
+
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <a class="signInOut mr-2" asp-controller="Account" asp-action="Logout"><i
+                        class="fas fa-sign-out-alt"></i> Sign Out</a>
+                }
+                else
+                {
+                    <a class="signInOut mr-2" asp-controller="Account" asp-action="Login"><i class="fas fa-sign-in-alt"></i>
+                        Sign In</a>
+                }
             </div>
         </nav>
     </header>
